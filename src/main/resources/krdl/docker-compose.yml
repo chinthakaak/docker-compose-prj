@@ -2,7 +2,7 @@ version: '3.3'
 services:
   lbl:
     image: nginx:latest
-    hostname: balancer
+    container_name: lbl
 #    deploy:            # deploy works only with swarm mode
 #      repicas: 1
     networks:
@@ -16,8 +16,39 @@ services:
     volumes:
       - lbl-conf:/etc/nginx
 
+  esb-mgr:
+    image: wso2-esb-manager:v1.0.0-rc1
+    container_name: esb-mgr
+
+    networks:
+      bridge-net1:
+        ipv4_address: 169.69.69.3 # if we set a ip scaling will not be possible
+
+    ports:
+      - 9443:9443
+      - 8280:8280
+
+    volumes:
+      - esb-mgr-conf:/opt/wso2esb-5.0.0/repository/conf
+
+  esb-wkr1:
+    image: wso2-esb-worker:v1.0.0-rc1
+    container_name: esb-wkr1
+
+    networks:
+      bridge-net1:
+        ipv4_address: 169.69.69.4 # if we set a ip scaling will not be possible
+
+#    ports:
+#      - 9443:9443
+#      - 8280:8280
+
+    volumes:
+      - esb-wkr1-conf:/opt/wso2esb-5.0.0/repository/conf
 volumes:
   lbl-conf:
+  esb-mgr-conf:
+  esb-wkr1-conf:
 
 networks:
   bridge-net1:
