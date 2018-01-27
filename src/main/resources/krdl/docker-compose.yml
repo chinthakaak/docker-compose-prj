@@ -1,14 +1,21 @@
-version: '3.4'
+version: '3.3'
 services:
   lbl:
-    build:
-      context: ./load-balancer/
+    image: nginx:latest
+#    deploy:            # deploy works only with swarm mode
+#      repicas: 1
+    networks:
+      bridge-net1:
+        ipv4_address: 169.69.69.1 # if we set a ip scaling will not be possible
+
     ports:
       - 80:80
       - 443:443
-    deploy:
-      mode: replicated
-      replicas: 6
 
-#  esb-mgr:
-#    build: ./wso2-esb-manager/
+networks:
+  bridge-net1:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 169.69.69.0/16
+
