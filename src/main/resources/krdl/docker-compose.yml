@@ -2,20 +2,27 @@ version: '3.3'
 services:
   lbl:
     image: nginx:latest
+    hostname: balancer
 #    deploy:            # deploy works only with swarm mode
 #      repicas: 1
     networks:
       bridge-net1:
-        ipv4_address: 169.69.69.1 # if we set a ip scaling will not be possible
+        ipv4_address: 169.69.69.2 # if we set a ip scaling will not be possible
 
     ports:
       - 80:80
       - 443:443
+
+    volumes:
+      - lbl-conf:/etc/nginx
+
+volumes:
+  lbl-conf:
 
 networks:
   bridge-net1:
     driver: bridge
     ipam:
       config:
-        - subnet: 169.69.69.0/16
+        - subnet: 169.69.69.0/24
 
