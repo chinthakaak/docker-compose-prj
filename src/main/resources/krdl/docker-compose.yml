@@ -17,7 +17,7 @@ services:
       - lbl-conf:/etc/nginx
 
   esb-mgr:
-    image: wso2-esb-manager:v1.0.0-rc1
+    image:  chinthakaak/wso2-esb:wso2-esb-5.0.0
     container_name: esb-mgr
 
     networks:
@@ -32,7 +32,7 @@ services:
       - esb-mgr-conf:/opt/wso2esb-5.0.0/repository/conf
 
   esb-wkr1:
-    image: wso2-esb-worker:v1.0.0-rc1
+    image:  chinthakaak/wso2-esb:wso2-esb-5.0.0
     container_name: esb-wkr1
 
     networks:
